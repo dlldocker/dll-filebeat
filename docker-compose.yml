@@ -5,8 +5,10 @@ services:
       volumes:
         - ./conf/filebeat.yml:/usr/share/filebeat/filebeat.yml
         - ./log:/tmp
-        - ~/dockerdata/filebeat:/data
-        - /var/lib/docker/containers:/var/lib/docker/containers
+         # needed to access all docker logs (read only) :
+        - "/var/lib/docker/containers:/usr/share/dockerlogs/data:ro"
+      # needed to access additional informations about containers
+        - "/var/run/docker.sock:/var/run/docker.sock"
       container_name: dll-filebeat
       hostname: dll-filebeat
       restart: always
