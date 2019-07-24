@@ -1,0 +1,20 @@
+version: "3"
+services:
+  dll-filebeat:
+      image: docker.elastic.co/beats/filebeat:7.1.1
+      volumes:
+        - ./conf/filebeat.yml:/usr/share/filebeat/filebeat.yml
+        - ./log:/tmp
+        - ~/dockerdata/filebeat:/data
+        - /var/lib/docker/containers:/var/lib/docker/containers
+      container_name: dll-filebeat
+      hostname: dll-filebeat
+      restart: always
+      privileged: true
+      external_links:
+        - dll-elasticsearch:dll-elasticsearch  #外部容器连接
+      networks:
+        - es-single_elk
+networks:
+  es-single_elk:
+    external: true  
